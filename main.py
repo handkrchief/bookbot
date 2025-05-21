@@ -1,7 +1,8 @@
 from stats import count_words
 from stats import count_characters
+from stats import sort_dict
+import sys
 
-# Given a filepath, reads the content of the file and returns the contents as a string
 def get_book_text(filepath):
     with open(filepath) as f:
         file_contents = f.read()
@@ -9,11 +10,20 @@ def get_book_text(filepath):
     return file_contents
 
 def main():
-   file_contents = get_book_text("/home/ethan/workspace/bootDev/bookbot/books/frankenstein.txt")
+   if len(sys.argv) == 1:
+      print("Usage: python3 main.py <path_to_book>")
+      sys.exit(1)
+   file_contents = get_book_text(sys.argv[1])
+
    num_words = count_words(file_contents)
-   print(f"{num_words} words found in the document")
+   print(f"Found {num_words} total words")
+
    num_chars = count_characters(file_contents)
-   print(num_chars)
+   sorted_chars = sort_dict(num_chars)
+   for small_dictionary in sorted_chars:
+      if small_dictionary["char"].isalpha():
+        print(f"{small_dictionary['char']}: {small_dictionary['num']}")
+
    
 
 if __name__ == "__main__":
